@@ -1,0 +1,58 @@
+{
+  "name": "tfg-rcebrian-service-template",
+  "version": "1.0.0",
+  "description": "TS express template",
+  "main": "dist/src/index.js",
+  "scripts": {
+    "start:dev": "tsc -w & NODE_ENV=development nodemon .",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rcebrian/tfg-rcebrian-service-template.git"
+  },
+  "author": "rcebrian",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rcebrian/tfg-rcebrian-service-template/issues"
+  },
+  "homepage": "https://github.com/rcebrian/tfg-rcebrian-service-template#readme",
+  "devDependencies": {
+    "@jest/globals": "^26.6.2",
+    "@types/express": "^4.17.11",
+    "@types/http-status": "^1.1.2",
+    "@types/jest": "^26.0.20",
+    "@types/morgan": "^1.9.2",
+    "@types/node": "^14.14.36",
+    "@types/supertest": "^2.0.10",
+    "@types/validator": "^13.1.3",
+    "@types/winston": "^2.4.4",
+    "@typescript-eslint/eslint-plugin": "^4.15.0",
+    "@typescript-eslint/parser": "^4.15.0",
+    "eslint": "^7.20.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "jest": "^26.6.3",
+    "nodemon": "^2.0.7",
+    "supertest": "^6.1.3",
+    "ts-jest": "^26.5.2",
+    "ts-node": "^9.1.1",
+    "tslint": "^6.1.3",
+    "typescript": "^4.1.4"
+  },
+  "dependencies": {
+    "@rcebrian/tfg-rcebrian-domain": "^0.0.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "http-status": "^1.5.0",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.2.5",
+    "npm": "^7.5.4",
+    "reflect-metadata": "^0.1.13",
+    "sequelize": "^6.6.2",
+    "sequelize-typescript": "^2.1.0",
+    "winston": "^3.3.3"
+  }
+}
