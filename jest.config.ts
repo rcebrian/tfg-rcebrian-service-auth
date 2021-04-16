@@ -13,12 +13,4 @@ export default {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   collectCoverage: true,
   coverageReporters: ['html', 'json', 'lcov', 'text', 'clover'],
-  coverageThreshold: {
-    './src/api/controllers': {
-      branches: 100,
-      functions: 80,
-      lines: 80,
-      statements: 80,
-    },
-  },
 };

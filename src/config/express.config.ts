@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import httpStatus from 'http-status';
 import router from '../api/routes';
 import { winstonStream } from './winston.config';
+import { errorHandler } from '../api/middlewares/errors.middleware';
 
 /**
  * Express instance
@@ -15,6 +16,8 @@ app.use(morgan(':remote-addr - :remote-user ":method :url HTTP/:http-version" :s
 app.use(json());
 
 app.use('/api', router);
+
+app.use(errorHandler);
 
 app.get('*', (req: Request, res: Response) => {
   res.status(httpStatus.NOT_FOUND).json();
