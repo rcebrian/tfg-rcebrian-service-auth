@@ -4,7 +4,9 @@
   "description": "TS express template",
   "main": "dist/src/index.js",
   "scripts": {
+    "start": "node .",
     "start:dev": "tsc -w & NODE_ENV=development nodemon .",
+    "build": "tsc",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "test": "jest"
