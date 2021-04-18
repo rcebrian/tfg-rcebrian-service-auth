@@ -45,7 +45,7 @@
     "typescript": "^4.1.4"
   },
   "dependencies": {
-    "@rcebrian/tfg-rcebrian-domain": "latest",
+    "@rcebrian/tfg-rcebrian-domain": "^1.0.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^6.10.0",
