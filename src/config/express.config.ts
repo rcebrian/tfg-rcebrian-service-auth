@@ -1,7 +1,7 @@
 import express, { json, Request, Response } from 'express';
 import morgan from 'morgan';
 import httpStatus from 'http-status';
-import router from '../api/routes';
+import apiRouter from '../api/routes';
 import { winstonStream } from './winston.config';
 import { errorHandler } from '../api/middlewares';
 import { APIError } from '../api/utils/errors';
@@ -16,7 +16,7 @@ app.use(morgan(':remote-addr - :remote-user ":method :url HTTP/:http-version" :s
 
 app.use(json());
 
-app.use('/api', router);
+app.use('/api/auth', apiRouter);
 
 app.use(errorHandler);
 
