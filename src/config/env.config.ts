@@ -5,6 +5,13 @@ dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 const APP = {
   env: process.env.APP_ENV,
   port: process.env.APP_PORT,
+  secret: process.env.JWT_SECRET,
+};
+
+const JWT = {
+  secret: process.env.JWT_SECRET,
+  expires: process.env.JWT_EXPIRES,
+  refresh: process.env.JWT_REFRESH,
 };
 
 const DATABASE = {
@@ -16,4 +23,4 @@ const DATABASE = {
   dialect: process.env.DB_DIALECT,
 };
 
-export { APP, DATABASE };
+export { APP, JWT, DATABASE };
