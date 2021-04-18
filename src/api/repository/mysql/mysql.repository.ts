@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize-typescript';
 import {
-  Role, Group, Company, Login, User, UsersGroups,
+  Role, Group, Company, Login, User, UsersGroups, Device,
 } from '@rcebrian/tfg-rcebrian-domain';
 import { DATABASE } from '../../../config/env.config';
 
@@ -14,7 +14,7 @@ const sequelize = new Sequelize({
   port: DATABASE.port,
   dialect: 'mysql',
   logging: false,
-  models: [Role, Group, Company, Login, User, UsersGroups],
+  models: [Role, Group, Company, Login, User, UsersGroups, Device],
 });
 
 sequelize.authenticate()
@@ -28,5 +28,5 @@ sequelize.authenticate()
 export default sequelize;
 
 export {
-  Role, Group, Company, Login, User, UsersGroups,
+  Role, Group, Company, Login, User, UsersGroups, Device,
 };
