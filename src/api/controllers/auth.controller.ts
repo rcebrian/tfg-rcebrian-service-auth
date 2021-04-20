@@ -69,7 +69,3 @@ export const signIn = async (req: Request, res: Response, next: NextFunction) =>
 export const refresh = (req: Request, res: Response) => {
   res.status(httpStatus.NOT_IMPLEMENTED).json();
 };
-
-export const logout = (req: Request, res: Response) => {
-  res.status(httpStatus.NOT_IMPLEMENTED).json();
-};
