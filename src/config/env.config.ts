@@ -11,7 +11,6 @@ const APP = {
 const JWT = {
   secret: process.env.JWT_SECRET,
   expires: process.env.JWT_EXPIRES,
-  refresh: process.env.JWT_REFRESH,
 };
 
 const DATABASE = {
