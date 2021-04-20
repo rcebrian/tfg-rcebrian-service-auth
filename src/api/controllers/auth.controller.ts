@@ -36,7 +36,7 @@ export const signIn = async (req: Request, res: Response, next: NextFunction) =>
       email: user.email,
       role: user.role.name,
     }, secret, {
-      // expiresIn: JWT.expires,
+      expiresIn: JWT.expires,
     });
 
     // set token on db for the rest of micros
