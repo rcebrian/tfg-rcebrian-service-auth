@@ -39,14 +39,9 @@ export const signIn = async (req: Request, res: Response, next: NextFunction) =>
       // expiresIn: JWT.expires,
     });
 
-    const refreshToken = jwt.sign({}, secret, {
-      expiresIn: JWT.refresh,
-    });
-
     // set token on db for the rest of micros
     Login.update({
       accessToken,
-      refreshToken,
     }, {
       where: {
         id: user.id,
@@ -56,7 +51,6 @@ export const signIn = async (req: Request, res: Response, next: NextFunction) =>
     res.status(httpStatus.OK).json({
       data: {
         accessToken,
-        refreshToken,
       },
     });
 
