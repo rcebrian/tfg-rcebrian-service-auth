@@ -2,8 +2,8 @@ import httpStatus from 'http-status';
 import { NextFunction, Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import { APIError } from '@rcebrian/tfg-rcebrian-common';
 import { Login, Role, User } from '../repository/mysql/mysql.repository';
-import { APIError } from '../utils/errors';
 import { JWT } from '../../config/env.config';
 
 export const signIn = async (req: Request, res: Response, next: NextFunction) => {

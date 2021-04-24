@@ -1,10 +1,9 @@
 import express, { json, Request, Response } from 'express';
 import morgan from 'morgan';
 import httpStatus from 'http-status';
+import { errorHandler, APIError } from '@rcebrian/tfg-rcebrian-common';
 import apiRouter from '../api/routes';
 import { winstonStream } from './winston.config';
-import { errorHandler } from '../api/middlewares';
-import { APIError } from '../api/utils/errors';
 
 /**
  * Express instance
