@@ -16,6 +16,7 @@ const generateAccessToken = (user: any) => {
   const secret: any = JWT.secret;
   const accessToken = jwt.sign({
     id: user.id,
+    name: `${user.firstName} ${user.lastName}`,
     email: user.email,
     role: user.role.name,
   }, secret, {
@@ -42,7 +43,7 @@ const generateAccessToken = (user: any) => {
 export const signIn = async (req: Request, res: Response, next: NextFunction) => {
   User.findOne({
     where: {
-      email: req.body.username,
+      email: req.body.email,
     },
     include: [Login, Role],
   }).then((user) => {

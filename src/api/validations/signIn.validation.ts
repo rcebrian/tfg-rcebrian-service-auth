@@ -5,10 +5,10 @@ import { body } from 'express-validator';
  * @returns array of validations
  */
 export const signInValidation = () => [
-  body('username')
-    .notEmpty().withMessage('Username is required')
+  body('email')
+    .notEmpty().withMessage('Email is required')
     .isEmail()
-    .withMessage('Username must be valid email'),
+    .withMessage('Email must be valid email'),
   body('password')
     .notEmpty().withMessage('Password is required'),
 ];
