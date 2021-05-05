@@ -3,7 +3,10 @@ import { NextFunction, Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { APIError } from '@rcebrian/tfg-rcebrian-common';
-import { Login, Role, User } from '../repository/mysql/mysql.repository';
+import { where } from 'sequelize/types';
+import {
+  Device, Login, Role, User,
+} from '../repository/mysql/mysql.repository';
 import { JWT } from '../../config/env.config';
 
 /**
@@ -95,4 +98,48 @@ export const refresh = (req: Request, res: Response) => {
       });
     }
   });
+};
+
+const generateUnexpiredToken = (user: User) => {
+  // eslint-disable-next-line prefer-destructuring
+  const secret: any = JWT.secret;
+  const bearerToken = jwt.sign({
+    id: user.id,
+    name: `${user.firstName} ${user.lastName}`,
+    email: user.email,
+  }, secret, {
+  });
+
+  return bearerToken;
+};
+
+export const signUp = async (req: Request, res: Response) => {
+  const userForm = req.body;
+
+  const newUser = await User.create({
+    firstName: userForm.firstName,
+    lastName: userForm.lastName,
+    phone: userForm.phone,
+    email: userForm.email,
+    address: userForm.address,
+    country: userForm.country,
+    postalCode: userForm.postalCode,
+    roleId: userForm.roleId,
+    login: {
+      passwordHash: await bcrypt.hash(userForm.password, 10),
+    },
+  }, {
+    include: [Login, Role],
+  });
+
+  let bearerToken;
+  if (newUser.roleId !== 1) {
+    bearerToken = generateUnexpiredToken(newUser);
+    await Device.create({
+      id: newUser.id,
+      bearerToken,
+    });
+  }
+
+  res.status(httpStatus.CREATED).json({ });
 };
