@@ -141,5 +141,5 @@ export const signUp = async (req: Request, res: Response) => {
     });
   }
 
-  res.status(httpStatus.CREATED).json({ });
+  res.status(httpStatus.CREATED).json();
 };
