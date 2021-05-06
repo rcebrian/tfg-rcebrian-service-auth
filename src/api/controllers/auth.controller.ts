@@ -149,3 +149,19 @@ export const signUp = async (req: Request, res: Response) => {
 
   res.status(httpStatus.CREATED).json();
 };
+
+export const signOut = async (req: Request, res: Response) => {
+  const token: any = req.headers.authorization?.replace('Bearer ', '');
+
+  const decoded = jwt.decode(token, { complete: true });
+
+  const payload: any = decoded?.payload;
+
+  await Login.update({
+    accessToken: null,
+  }, {
+    where: { id: payload?.id },
+  });
+
+  res.status(httpStatus.OK).json();
+};
