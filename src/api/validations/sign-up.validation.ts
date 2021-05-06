@@ -1,5 +1,5 @@
 import { body } from 'express-validator';
-import { User, Role } from '../repository/mysql/mysql.repository';
+import { User, Role, Group } from '../repository/mysql/mysql.repository';
 
 /**
  * Validate if the body params are valid
@@ -58,4 +58,14 @@ export const signUpValidation = () => [
     .notEmpty().withMessage('Confirm password is required')
     .custom((value, { req }) => value === req.body.password)
     .withMessage('Passwords must match'),
+  body('groupId')
+    .custom(async (value) => {
+      if (value) {
+        const group = await Group.findOne({ where: { id: value } });
+        return (group !== null)
+          ? Promise.resolve() : Promise.reject();
+      }
+      Promise.resolve();
+    })
+    .withMessage('Invalid group'),
 ];

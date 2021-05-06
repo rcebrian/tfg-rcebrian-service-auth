@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 import { APIError } from '@rcebrian/tfg-rcebrian-common';
 import { where } from 'sequelize/types';
 import {
-  Device, Login, Role, User,
+  Device, Login, Role, User, UsersGroups,
 } from '../repository/mysql/mysql.repository';
 import { JWT } from '../../config/env.config';
 
@@ -138,6 +138,13 @@ export const signUp = async (req: Request, res: Response) => {
     await Device.create({
       id: newUser.id,
       bearerToken,
+    });
+  }
+
+  if (userForm.groupId) {
+    await UsersGroups.create({
+      userId: newUser.id,
+      groupId: userForm.groupId,
     });
   }
 
