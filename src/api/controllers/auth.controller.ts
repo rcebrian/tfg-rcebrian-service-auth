@@ -3,7 +3,6 @@ import { NextFunction, Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { APIError } from '@rcebrian/tfg-rcebrian-common';
-import { where } from 'sequelize/types';
 import {
   Device, Login, Role, User, UsersGroups,
 } from '../repository/mysql/mysql.repository';
