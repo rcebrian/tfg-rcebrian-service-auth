@@ -65,7 +65,7 @@ export const signUpValidation = () => [
         return (group !== null)
           ? Promise.resolve() : Promise.reject();
       }
-      Promise.resolve();
+      return Promise.resolve();
     })
     .withMessage('Invalid group'),
 ];
