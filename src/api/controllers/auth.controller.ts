@@ -9,6 +9,24 @@ import {
 import { JWT } from '../../config/env.config';
 
 /**
+ * Generate a token with no expiration time
+ * @param user model
+ * @returns valid bearer token
+ */
+const generateUnexpiredToken = (user: User) => {
+  // eslint-disable-next-line prefer-destructuring
+  const secret: any = JWT.secret;
+  const bearerToken = jwt.sign({
+    id: user.id,
+    name: `${user.firstName} ${user.lastName}`,
+    email: user.email,
+  }, secret, {
+  });
+
+  return bearerToken;
+};
+
+/**
  * Generate an access token with an add payload
  * @param user to payload token
  * @returns jwt access token
@@ -99,19 +117,11 @@ export const refresh = (req: Request, res: Response) => {
   });
 };
 
-const generateUnexpiredToken = (user: User) => {
-  // eslint-disable-next-line prefer-destructuring
-  const secret: any = JWT.secret;
-  const bearerToken = jwt.sign({
-    id: user.id,
-    name: `${user.firstName} ${user.lastName}`,
-    email: user.email,
-  }, secret, {
-  });
-
-  return bearerToken;
-};
-
+/**
+ * Create a new user
+ * @param req POST new user
+ * @param res CREATED
+ */
 export const signUp = async (req: Request, res: Response) => {
   const userForm = req.body;
 
@@ -150,6 +160,11 @@ export const signUp = async (req: Request, res: Response) => {
   res.status(httpStatus.CREATED).json();
 };
 
+/**
+ * Remove token from database
+ * @param req POST request bearer token in auth header
+ * @param res OK
+ */
 export const signOut = async (req: Request, res: Response) => {
   const userId = getPropertyFromBearerToken(req.headers, TokenPropertiesEnum.ID);
 
@@ -164,7 +179,7 @@ export const signOut = async (req: Request, res: Response) => {
 
 /**
  * Change user password
- * @param req PUT method with old and new password
+ * @param req PUT request with old and new password
  * @param res CREATED if update
  * @param next handle async problems
  */
