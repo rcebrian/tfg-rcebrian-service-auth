@@ -1,7 +1,10 @@
 import { body } from 'express-validator';
 
 /**
- * Validate if the body params are valid
+ * Validate that it complies with:
+ *  - oldPassword: not empty (validation of the same password occurs in controller)
+ *  - password: not empty AND is a new valid password
+ *  - confirmPassword: not empty AND same as password
  * @returns array of validations
  */
 export const changePasswordValidation = () => [
