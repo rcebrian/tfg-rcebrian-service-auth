@@ -2,7 +2,7 @@ import httpStatus from 'http-status';
 import { NextFunction, Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { APIError } from '@rcebrian/tfg-rcebrian-common';
+import { APIError, getPropertyFromBearerToken, TokenPropertiesEnum } from '@rcebrian/tfg-rcebrian-common';
 import {
   Device, Login, Role, User, UsersGroups,
 } from '../repository/mysql/mysql.repository';
@@ -151,17 +151,36 @@ export const signUp = async (req: Request, res: Response) => {
 };
 
 export const signOut = async (req: Request, res: Response) => {
-  const token: any = req.headers.authorization?.replace('Bearer ', '');
-
-  const decoded = jwt.decode(token, { complete: true });
-
-  const payload: any = decoded?.payload;
+  const userId = getPropertyFromBearerToken(req.headers, TokenPropertiesEnum.ID);
 
   await Login.update({
     accessToken: null,
   }, {
-    where: { id: payload?.id },
+    where: { id: userId },
   });
 
   res.status(httpStatus.OK).json();
+};
+
+/**
+ * Change user password
+ * @param req PUT method with old and new password
+ * @param res CREATED if update
+ * @param next handle async problems
+ */
+export const changePassword = async (req: Request, res: Response, next: NextFunction) => {
+  const userId = getPropertyFromBearerToken(req.headers, TokenPropertiesEnum.ID);
+  const { oldPassword, password } = req.body;
+
+  const passwordHash = String((await Login.findOne({ where: { id: userId }, attributes: ['passwordHash'] }))?.get('passwordHash'));
+
+  bcrypt.compare(oldPassword, passwordHash).then(async (areEquals) => {
+    if (!areEquals) {
+      throw new APIError({ message: 'Bad request', errors: ['Incorrect password'], status: httpStatus.BAD_REQUEST });
+    }
+    await Login.update({
+      passwordHash: await bcrypt.hash(password, 10),
+    }, { where: { id: userId } });
+    res.status(httpStatus.CREATED).json();
+  }).catch((err) => next(err));
 };
