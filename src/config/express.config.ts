@@ -1,7 +1,6 @@
-import express, { json, Request, Response } from 'express';
+import express, { json } from 'express';
 import morgan from 'morgan';
-import httpStatus from 'http-status';
-import { errorHandler, APIError } from '@rcebrian/tfg-rcebrian-common';
+import { errorHandler, notFoundHandler } from '@rcebrian/tfg-rcebrian-common';
 import cors from 'cors';
 import apiRouter from '../api/routes';
 import { winstonStream } from './winston.config';
@@ -25,10 +24,8 @@ app.use(json());
 
 app.use('/api/auth', apiRouter);
 
-app.use(errorHandler);
+app.use(notFoundHandler);
 
-app.get('*', (req: Request, res: Response) => {
-  throw new APIError({ message: 'Not found', status: httpStatus.NOT_FOUND });
-});
+app.use(errorHandler);
 
 export = app;
