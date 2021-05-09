@@ -167,16 +167,18 @@ export const signUp = async (req: Request, res: Response, next: NextFunction) =>
  * @param req POST request bearer token in auth header
  * @param res OK
  */
-export const signOut = async (req: Request, res: Response) => {
+export const signOut = async (req: Request, res: Response, next: NextFunction) => {
   const userId = getPropertyFromBearerToken(req.headers, TokenPropertiesEnum.ID);
 
-  await Login.update({
+  Login.update({
     accessToken: null,
   }, {
     where: { id: userId },
+  }).then(() => {
+    res.status(httpStatus.OK).json();
+  }).catch((err) => {
+    next(err);
   });
-
-  res.status(httpStatus.OK).json();
 };
 
 /**
