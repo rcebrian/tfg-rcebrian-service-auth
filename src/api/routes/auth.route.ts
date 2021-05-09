@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { auth } from '@rcebrian/tfg-rcebrian-common';
+import { auth, validatorHandler } from '@rcebrian/tfg-rcebrian-common';
 import {
   signIn, refresh, signUp, signOut, changePassword,
 } from '../controllers/auth.controller';
@@ -10,14 +10,14 @@ const router = Router();
 /**
  * NO AUTH NEEDED
  */
-router.route('/signIn').post(signInValidation(), signIn);
+router.route('/signIn').post(signInValidation(), validatorHandler, signIn);
 
 /**
  * NEED TO BE AUTHENTICATED
  */
-router.route('/signUp').post(auth, signUpValidation(), signUp);
+router.route('/signUp').post(auth, signUpValidation(), validatorHandler, signUp);
 router.route('/refresh').post(auth, refresh);
 router.route('/signOut').post(auth, signOut);
-router.route('/change-password').put(auth, changePasswordValidation(), changePassword);
+router.route('/change-password').put(auth, changePasswordValidation(), validatorHandler, changePassword);
 
 export { router as authRoutes };

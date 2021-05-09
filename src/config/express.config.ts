@@ -1,7 +1,7 @@
 import express, { json } from 'express';
 import morgan from 'morgan';
 import {
-  errorHandlerConverter, errorHandler, notFoundHandler, validatorHandler,
+  errorHandlerConverter, errorHandler, notFoundHandler,
 } from '@rcebrian/tfg-rcebrian-common';
 import cors from 'cors';
 import apiRouter from '../api/routes';
@@ -27,8 +27,6 @@ app.use(json());
 app.use('/api/auth', apiRouter);
 
 app.use(errorHandlerConverter);
-
-app.use(validatorHandler);
 
 app.use(notFoundHandler);
 
