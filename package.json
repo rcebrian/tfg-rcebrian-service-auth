@@ -48,7 +48,7 @@
     "typescript": "^4.1.4"
   },
   "dependencies": {
-    "@rcebrian/tfg-rcebrian-common": "^1.4.2",
+    "@rcebrian/tfg-rcebrian-common": "^1.5.0",
     "@rcebrian/tfg-rcebrian-domain": "^1.2.3",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
