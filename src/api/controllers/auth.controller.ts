@@ -122,10 +122,10 @@ export const refresh = (req: Request, res: Response) => {
  * @param req POST new user
  * @param res CREATED
  */
-export const signUp = async (req: Request, res: Response) => {
+export const signUp = async (req: Request, res: Response, next: NextFunction) => {
   const userForm = req.body;
 
-  const newUser = await User.create({
+  User.create({
     firstName: userForm.firstName,
     lastName: userForm.lastName,
     phone: userForm.phone,
@@ -139,25 +139,27 @@ export const signUp = async (req: Request, res: Response) => {
     },
   }, {
     include: [Login, Role],
+  }).then(async (newUser) => {
+    let bearerToken;
+    if (newUser.roleId !== 1) {
+      bearerToken = generateUnexpiredToken(newUser);
+      await Device.create({
+        id: newUser.id,
+        bearerToken,
+      });
+    }
+
+    if (userForm.groupId) {
+      await UsersGroups.create({
+        userId: newUser.id,
+        groupId: userForm.groupId,
+      });
+    }
+
+    res.status(httpStatus.CREATED).json();
+  }).catch((err) => {
+    next(err);
   });
-
-  let bearerToken;
-  if (newUser.roleId !== 1) {
-    bearerToken = generateUnexpiredToken(newUser);
-    await Device.create({
-      id: newUser.id,
-      bearerToken,
-    });
-  }
-
-  if (userForm.groupId) {
-    await UsersGroups.create({
-      userId: newUser.id,
-      groupId: userForm.groupId,
-    });
-  }
-
-  res.status(httpStatus.CREATED).json();
 };
 
 /**
