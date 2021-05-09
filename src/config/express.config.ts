@@ -1,6 +1,8 @@
 import express, { json } from 'express';
 import morgan from 'morgan';
-import { errorHandler, notFoundHandler } from '@rcebrian/tfg-rcebrian-common';
+import {
+  errorHandlerConverter, errorHandler, notFoundHandler, validatorHandler,
+} from '@rcebrian/tfg-rcebrian-common';
 import cors from 'cors';
 import apiRouter from '../api/routes';
 import { winstonStream } from './winston.config';
@@ -23,6 +25,10 @@ app.use(cors({
 app.use(json());
 
 app.use('/api/auth', apiRouter);
+
+app.use(errorHandlerConverter);
+
+app.use(validatorHandler);
 
 app.use(notFoundHandler);
 
