@@ -13,12 +13,13 @@ import { JWT } from '../../config/env.config';
  * @param user model
  * @returns valid bearer token
  */
-const generateUnexpiredToken = (user: User) => {
+const generateUnexpiredToken = (user: User, roleName: any) => {
   // eslint-disable-next-line prefer-destructuring
   const secret: any = JWT.secret;
   const bearerToken = jwt.sign({
     id: user.id,
     name: `${user.firstName} ${user.lastName}`,
+    role: roleName,
     email: user.email,
   }, secret, {
   });
@@ -141,8 +142,9 @@ export const signUp = async (req: Request, res: Response, next: NextFunction) =>
     include: [Login, Role],
   }).then(async (newUser) => {
     let bearerToken;
+    const role = await Role.findOne({ where: { id: newUser.roleId } });
     if (newUser.roleId !== 1) {
-      bearerToken = generateUnexpiredToken(newUser);
+      bearerToken = generateUnexpiredToken(newUser, role?.name);
       await Device.create({
         id: newUser.id,
         bearerToken,
