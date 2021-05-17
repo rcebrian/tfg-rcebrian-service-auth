@@ -18,7 +18,7 @@ app.use(morgan(':remote-addr - :remote-user ":method :url HTTP/:http-version" :s
 app.use(cors({
   origin: '*',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  preflightContinue: false,
+  preflightContinue: true,
   optionsSuccessStatus: 200,
 }));
 
